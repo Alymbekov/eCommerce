@@ -1,0 +1,13 @@
+{% extends 'bases/base.html' %}
+
+{% load static %}
+
+
+
+{% block content %}
+    {{ product.p_name }}
+    {{ product.price }}
+    {{ product.products.title }}
+    {{ product.description }}
+    {{ product.image }}
+{% endblock %}
