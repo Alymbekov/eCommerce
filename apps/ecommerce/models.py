@@ -1,5 +1,23 @@
+import os
+
 from django.db import models
+from django.utils.crypto import random
+
 from apps.category.models import Category
+
+
+def get_filename_ext(filepath):
+    base_name = os.path.basename(filepath)
+    name, ext = os.path.splitext(base_name)
+    return name, ext
+
+
+def upload_image_path(instance, filename):
+    new_filename = random.randint(1, 3934343433)
+    name, ext = get_filename_ext(filename)
+    final_filename = f'{new_filename}{ext}'
+    return f'product_images/{new_filename}/{final_filename}'
+
 
 class Product(models.Model):
     p_name = models.CharField(max_length=100, verbose_name='Наименование продукта')
@@ -11,9 +29,28 @@ class Product(models.Model):
     created_ad = models.DateField(auto_now_add=True, verbose_name='Дата добавления:')
     updated_ad = models.DateField(auto_now_add=True, verbose_name='Дата обновления:')
     artikul = models.CharField(max_length=100, verbose_name='Код товара')
-    slug = models.SlugField()
-    image = models.ImageField(upload_to='media/products/', verbose_name='Фото товара')
+    slug = models.SlugField(null=True, blank=True)
+    #image = models.ImageField(upload_to='media/products/', verbose_name='Фото товара')
     #comment = models.ForeignKey()
+
+    def gen_slug(self):
+        self.slug = self.p_name.lower() + "1"
+
+    def save(self, *args, **kwargs):
+        self.gen_slug()
+        super().save(self, *args, **kwargs)
 
     def __str__(self):
         return self.p_name
+
+
+class ProductImage(models.Model):
+    image = models.ImageField(upload_to=upload_image_path)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name="images")
+
+    class Meta:
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
+
+    def __str__(self):
+        return f'{self.product.p_name}.jpg'

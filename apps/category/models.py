@@ -1,6 +1,7 @@
 
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -11,6 +12,9 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'category'
         verbose_name_plural = 'categories'
+
+    def get_absolute_url(self):
+        return reverse('category_detail', kwargs={'slug': self.slug})
 
     def gen_slug(self):
         self.slug = self.title.lower() + "1"

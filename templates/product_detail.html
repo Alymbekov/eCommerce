@@ -1,13 +1,85 @@
 {% extends 'bases/base.html' %}
 
-{% load static %}
-
-
+{% load static  %}
 
 {% block content %}
-    {{ product.p_name }}
-    {{ product.price }}
-    {{ product.products.title }}
-    {{ product.description }}
-    {{ product.image }}
+    <div class="container">
+        <div class="breadcrumb  full-width ">
+            <div class="background-breadcrumb"></div>
+            <div class="background">
+                <div class="shadow"></div>
+                <div class="pattern">
+                    <div class="container">
+                        <div class="clearfix">
+                            <ul>
+                                <li><a href="{% url 'products_list' %}">Главная</a></li>
+                                <li>{{product.p_name}}</li>
+                            </ul>
+                            <h1 class="product-name">{{product.p_name}}</h1></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-info mt-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row" id="quickview_product">
+                        <div class="col-md-5 popup-gallery">
+                            <div class="product-image cloud-zoom">
+                                {% for product in product.images.all %}
+                                <figure class="iiz "><img class="iiz__img" src="{{ product.image.url }}"><span
+                                        class="iiz__btn iiz__hint"></span></figure>
+                                {% endfor %}
+                            </div>
+                            <div class="overflow-thumbnails-carousel">
+                                <div class="thumbnails-carousel owl-carousel owl-loaded owl-drag">
+                                    <div class="owl-stage-outer">
+                                        <div class="owl-stage"
+                                             style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 332px;">
+                                            <div class="owl-item active" style="width: 73px; margin-right: 10px;">
+                                                <div class="owl-item"><p><a href="#product_image"
+                                                                            class="popup-image active"><img
+                                                        src="{{ product.image.url }}" title="Product 1"
+                                                        alt="Product 1"></a></p></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="owl-nav disabled">
+                                        <div class="owl-prev disabled"></div>
+                                        <div class="owl-next disabled"></div>
+                                    </div>
+                                    <div class="owl-dots disabled"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 product-center clearfix">
+                            <div class="description"><span>Product code: </span><b>{{ product.p_name }}</b><br>
+                                <span>Brand: </span><b>None</b><br>
+                                <span>Availability: </span><b>Есть в наличии</b></div>
+                            <div class="price"><span class="price-new">{{ product.price }} Сом</span></div>
+                            <div id="product">
+                                <div class="cart">
+                                    <div class="add-to-cart d-flex">
+                                        <div class="quantity"><input type="text" name="quantity"
+                                                                     id="quantity_wanted" size="2" value="1"><a
+                                                href="#quantity_up" id="q_up"><i class="fa fa-plus"></i></a><a
+                                                href="#quantity_down" id="q_down"><i class="fa fa-minus"></i></a>
+                                        </div>
+                                        <input type="button" class="button" value="Add to cart"></div>
+                                    <div class="links clearfix"><a href="#add_to_wishlist">Add to wishlist</a><a
+                                            href="#add_to_compare">Add to compare</a></div>
+                                </div>
+                            </div>
+                            <div class="review">
+                                <div class="rating"><i class="fa fa-star active"></i><i
+                                        class="fa fa-star active"></i><i class="fa fa-star active"></i><i
+                                        class="fa fa-star active"></i><i class="fa fa-star active"></i>&nbsp;&nbsp;&nbsp;<a
+                                        href="#reviews">1 Reviews</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

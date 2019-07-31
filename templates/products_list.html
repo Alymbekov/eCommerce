@@ -1,13 +1,53 @@
 {% extends 'bases/base.html' %}
 
-{% block content %}
+{% load static %}
 
-    {% for product in object_list %}
-        <div class="container">
-            {{ product.p_name }}
-            {{ product.price }}
-            {{ product.category }}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="filter">
+                <ul>
+                    {% for categoria in categories %}
+                        <li><a href="{{ categoria.get_absolute_url }}">
+                            {{ categoria.title }}
+                           <!-- {% if categoria.children.count > 0 %}
+                                <ul>
+                                    {% for sub in categoria.children.all %}
+                                        <li>{{ sub.title }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            -->
+                        </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% for product in page_object.object_list %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100">
+                        {% for x in product.images.all %}
+                        <a href="#"><img class="card-img-top" src="{{ x.image.url }}" style="max-height: 350px;"
+                                         alt=""></a>
+                            {% endfor  %}
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="{% url 'product_detail' pk=product.pk %}"> {{ product.p_name }}</a>
+                            </h4>
+                            <h5>{{ product.price }} сом</h5>
+                            <p class="card-text">
+                                {{ product.description }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">{{ product.category.parent }}</small>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
         </div>
-    {% endfor %}
+    </div>
+
+
 
 {% endblock %}
