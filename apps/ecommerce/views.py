@@ -1,9 +1,10 @@
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render
-
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import auth
 from apps.category.models import Category
-from .models import Product
+from apps.ecommerce.forms import CommentForm
+from .models import Product, Comment
 from django.views.generic import ListView, CreateView, DetailView
 from django.core.paginator import Paginator
 
@@ -57,6 +58,21 @@ def index(request):
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'product_detail.html'
+
+
+def add_comment_to_product(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.product = product
+            comment.author = auth.get_user(request)
+            comment.save()
+            return redirect('product_detail', pk=product.pk)
+    else:
+        form = CommentForm()
+    return render(request, 'add_comment.html', {'form': form})
 
 
 

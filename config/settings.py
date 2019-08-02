@@ -29,9 +29,13 @@ INSTALLED_APPS = [
     'apps.users',
     'apps.category',
     'crispy_forms',
+    'import_export',
 ]
 
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

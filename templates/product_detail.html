@@ -82,4 +82,14 @@
             </div>
         </div>
     </div>
+    <div class="card-footer">
+    {% for comment in product_detail.comments.all %}
+        <p>
+            <span class="font-weight-bold">{{ comment.author }}&middot;</span>
+            {{ comment }}
+        </p>
+    {% endfor %}
+    </div>
+    <a class="btn btn-default" href="{% url 'add_comment' pk=product.pk  %}">Add comment</a>
+
 {% endblock %}
