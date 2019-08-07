@@ -1,5 +1,5 @@
 import os
-from decouple import  config
+from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'apps.category',
     'crispy_forms',
     'import_export',
+    'apps.orders',
+    'apps.cart'
 ]
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True

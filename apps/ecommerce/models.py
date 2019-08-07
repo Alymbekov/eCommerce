@@ -33,6 +33,7 @@ class Product(models.Model):
                                  null=True,
                                  )
     stock = models.PositiveSmallIntegerField(verbose_name='Количество')
+    available = models.BooleanField(default=True)
     created_ad = models.DateField(auto_now_add=True, verbose_name='Дата добавления:')
     updated_ad = models.DateField(auto_now_add=True, verbose_name='Дата обновления:')
     artikul = models.CharField(max_length=100, verbose_name='Код товара')
